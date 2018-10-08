@@ -2,13 +2,13 @@ package module.project;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.TimerTask;
 
-public class Main extends Canvas {
+public class Main extends Canvas implements Runnable {
     static final int WIDTH = 512;
     static final int HEIGHT = 512;
     static final int SIZE = 8;
     static int gameField[][] = new int[SIZE][SIZE];
+    int pause = 500;
 
     public static void main(String[] args) {
         JFrame window = new JFrame("Conway's Life Game");
@@ -18,6 +18,7 @@ public class Main extends Canvas {
         canvas.setSize(WIDTH, HEIGHT);
         window.add(canvas);
         window.setVisible(true);
+        new Main().run();
     }
 
     public static void fillArray(int a[][]) {
@@ -39,7 +40,21 @@ public class Main extends Canvas {
             for (int j = 0; j < SIZE; j++) {
                 g2.setColor(gameField[i][j] == 0?Color.WHITE:Color.BLACK);
                 g2.fillRect(i * WIDTH / SIZE, j * HEIGHT / SIZE,
-                            WIDTH / SIZE, HEIGHT / SIZE);
+                        WIDTH / SIZE, HEIGHT / SIZE);
+            }
+        }
+    }
+
+    @Override
+    public void run() {
+
+        while (true) {
+
+            try {
+                Thread.sleep(pause);
+                this.repaint();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
