@@ -2,24 +2,49 @@ package module.project;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class Main extends JFrame implements Runnable {
-    static final int WIDTH = 800;
-    static final int HEIGHT = 800;
-    static final int SIZE = 40;
+//    static final int WIDTH = 800;
+//    static final int HEIGHT = 800;
+    static final int SIZE = 100;
     static int gameField[][] = new int[SIZE][SIZE];
+
     int pause = 500;
 
     public Main() {
         setName("Conway's Life Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(WIDTH, HEIGHT);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        setUndecorated(true);
+        pack();
         setVisible(true);
+        this.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    dispose();
+                }
+            }
+        });
+
     }
 
     public static void main(String[] args) {
         fillArray(gameField);
-        new Main().run();
+        new Main();
     }
 
     public static void fillArray(int a[][]) {
@@ -38,13 +63,13 @@ public class Main extends JFrame implements Runnable {
     }
 
     public void paint(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
+
 
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
-                g2.setColor(gameField[i][j] == 0 ? Color.WHITE : Color.BLACK);
-                g2.fillRect(i * WIDTH / SIZE, j * HEIGHT / SIZE,
-                        WIDTH / SIZE, HEIGHT / SIZE);
+                g.setColor(gameField[i][j] == 0 ? Color.WHITE : Color.BLACK);
+                g.fillRect(i * getWidth() / SIZE, j * getHeight() / SIZE,
+                        getWidth() / SIZE, getHeight() / SIZE);
             }
         }
         //gameText("GAME OVER", 120, 256, 42, g2);
@@ -78,4 +103,5 @@ public class Main extends JFrame implements Runnable {
             }
         }
     }
+
 }
